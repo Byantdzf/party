@@ -80,6 +80,7 @@ export default class httpMixin extends wepy.mixin {
     // 发起请求
     wepy.request(Object.assign(request, {
       success: ({ statusCode, data }) => {
+        wx.removeStorageSync('message')
         // 控制台调试日志
         console.log('[SUCCESS]', statusCode, typeof data === 'object' ? data : data.toString().substring(0, 100))
 
@@ -97,6 +98,7 @@ export default class httpMixin extends wepy.mixin {
             content: data.message,
             showCancel: false
           })
+          wx.setStorageSync('message', data.message)
         }else if (data.code == 2) {
           // 删除过时token
           var pages = getCurrentPages()    //获取加载的页面
